@@ -27,7 +27,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 instagram_username: napoleon.bakery
 # twitter_username: jekyllrb 
-github_username:  yerihyo
+# github_username:  yerihyo
 
 # Build settings
 theme: minima
