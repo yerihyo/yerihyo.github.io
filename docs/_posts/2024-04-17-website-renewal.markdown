@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "웹사이트 리뉴얼 기념 케이크 할인 이벤트!"
+title:  "웹사이트 리뉴얼 기념 케이크 할인 이벤트!"
 date:   2024-04-17 17:32:28 -0700
 categories: jekyll update
 ---
