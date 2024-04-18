@@ -4,6 +4,3 @@
 
 layout: home
 ---
-
-(주) yerihyo.io는 완전 멋진 주식회사입니다.
-
