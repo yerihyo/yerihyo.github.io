@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Website Renewal!"
+title:  "케이크 10% 할인"
 date:   2024-04-17 17:32:28 -0700
 categories: jekyll update
 ---
