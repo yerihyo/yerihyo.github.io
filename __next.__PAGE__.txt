@@ -1,5 +1,5 @@
 1:"$Sreact.fragment"
 2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
 3:"$Sreact.suspense"
-0:{"buildId":"7yYrOj3PNmUaV_l34GaqP","rsc":["$","$1","c",{"children":[["$","main",null,{"children":[["$","h1",null,{"children":"환영합니다! 제 웹사이트의 새로운 메인 페이지입니다."}],["$","p",null,{"children":["이전 Next.js 기본 페이지는 ",["$","a",null,{"href":"/given","children":"/given"}]," 경로에서 확인할 수 있습니다."]}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"6W0fnEC7W3Xpetc_AoVwA","rsc":["$","$1","c",{"children":[["$","main",null,{"children":[["$","h1",null,{"children":"환영합니다! 제 웹사이트의 새로운 메인 페이지입니다."}],["$","p",null,{"children":["이전 Next.js 기본 페이지는 ",["$","a",null,{"href":"/given","children":"/given"}]," 경로에서 확인할 수 있습니다."]}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
 4:null
