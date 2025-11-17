@@ -1,4 +1,4 @@
-// frontend/app/tracker/CooldownTracker.tsx (쿨타임 0초 스킬만 필터링)
+// frontend/app/tracker/CooldownTracker.tsx (스킬명 롤백 및 전체 초기화 버튼 추가)
 
 'use client';
 
@@ -113,6 +113,14 @@ export default function CooldownTracker() {
     setActiveTimestamps(newTimestamps);
     setWarningMessage('✅ 게임 타이머가 재시작/초기화 되었습니다.');
   };
+  
+  // 💡 추가된 함수: 전체 영웅 및 쿨타임 초기화
+  const clearAllHeroes = () => {
+    setSelectedHeroIds([]);
+    setActiveTimestamps({}); 
+    setGameStartTime(null); // 게임 상태도 초기화
+    setWarningMessage('✅ 선택된 영웅 및 쿨타임이 모두 초기화되었습니다.');
+  };
 
   const toggleHeroSelection = (heroId: string) => {
     setSelectedHeroIds(prevIds => {
@@ -171,7 +179,7 @@ export default function CooldownTracker() {
       )}
 
       {/* ===================================================
-        게임 시작 버튼 및 상태 표시
+        게임 시작 및 초기화 버튼
       =================================================== */}
       <div className="mb-3 p-3 border border-green-200 rounded-lg bg-green-50 shadow-sm">
         <div className="flex justify-between items-center">
@@ -181,16 +189,26 @@ export default function CooldownTracker() {
                     {gameStartTime ? '진행 중' : '대기'}
                 </span>
             </h2>
-            <button
-                onClick={handleGameStart}
-                onMouseDown={() => setIsGameStartInfoOpen(true)}
-                onMouseUp={() => setIsGameStartInfoOpen(false)}
-                onTouchStart={() => setIsGameStartInfoOpen(true)}
-                onTouchEnd={() => setIsGameStartInfoOpen(false)}
-                className="px-3 py-1 bg-green-500 text-white font-bold rounded-md shadow-md hover:bg-green-600 transition duration-150 text-xs sm:text-sm"
-            >
-                {gameStartTime ? '재시작' : '게임 시작'}
-            </button>
+            <div className="flex space-x-2"> 
+                {/* 💡 추가된 버튼: 전체 초기화 */}
+                <button
+                    onClick={clearAllHeroes}
+                    className="px-3 py-1 bg-red-500 text-white font-bold rounded-md shadow-md hover:bg-red-600 transition duration-150 text-xs sm:text-sm"
+                >
+                    전체 초기화
+                </button>
+
+                <button
+                    onClick={handleGameStart}
+                    onMouseDown={() => setIsGameStartInfoOpen(true)}
+                    onMouseUp={() => setIsGameStartInfoOpen(false)}
+                    onTouchStart={() => setIsGameStartInfoOpen(true)}
+                    onTouchEnd={() => setIsGameStartInfoOpen(false)}
+                    className="px-3 py-1 bg-green-500 text-white font-bold rounded-md shadow-md hover:bg-green-600 transition duration-150 text-xs sm:text-sm"
+                >
+                    {gameStartTime ? '재시작' : '게임 시작'}
+                </button>
+            </div>
         </div>
         
         {isGameStartInfoOpen && (
@@ -267,7 +285,6 @@ export default function CooldownTracker() {
             </h2>
 
             <div className="grid grid-cols-3 gap-1">
-              {/* 💡 필터링 로직 수정: 궁극기이거나 쿨타임이 0초를 초과하는 스킬만 표시 */}
               {hero.skills
                 .filter(skill => skill.type === 'Ultimate' || skill.cooldown > 0)
                 .map((skill) => {
@@ -286,6 +303,21 @@ export default function CooldownTracker() {
                   displayTimeMs = timestamp - currentTime;
                   isCooling = displayTimeMs > 0;
                 }
+                
+                const displayContent = (() => {
+                    if (isUltimate) {
+                        return (timestamp === 0 || !gameStartTime ? 'START' : formatTime(displayTimeMs, isUltimate));
+                    }
+                    
+                    if (isCooling) {
+                        return formatTime(displayTimeMs, isUltimate);
+                    }
+                    
+                    return `${skill.cooldown}s`; 
+                })();
+                
+                const isActiveTime = isCooling || (isUltimate && isUltimateUsed(hero.id, skill.id));
+
 
                 return (
                   <button
@@ -312,17 +344,24 @@ export default function CooldownTracker() {
                       }
                     `}
                   >
+                    {/* 💡 롤백된 부분: 스킬 이름 텍스트 표시 */}
                     <p className="text-xs font-bold truncate max-w-full">
                       {skill.name} 
                       <span className="text-[9px] font-normal text-gray-300 ml-0.5">
-                        {isUltimate ? '(궁)' : `(${skill.cooldown}s)`}
+                        {isUltimate ? '(궁)' : ''}
                       </span>
                     </p>
-                    <p className="text-sm font-extrabold mt-0 leading-none">
-                      {isUltimate 
-                        ? (timestamp === 0 || !gameStartTime ? 'START' : formatTime(displayTimeMs, isUltimate))
-                        : formatTime(displayTimeMs, isUltimate)
-                      }
+                    
+                    {/* 💡 쿨타임 시간 표시 (스타일 유지) */}
+                    <p 
+                      className={`font-extrabold mt-0 leading-none 
+                        ${isActiveTime 
+                          ? 'text-lg text-yellow-300' // 활성 타이머 (노란색, 크게)
+                          : 'text-base text-white' // 대기/정적 쿨타임 (흰색, 중간 크기)
+                        }
+                      `}
+                    >
+                      {displayContent}
                     </p>
                   </button>
                 );
